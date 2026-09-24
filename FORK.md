@@ -62,7 +62,8 @@ cp lute/config/config.yml.example lute/config/config.yml
 # then set: ENV: dev, DBNAME: test_lute.db, DATAPATH: <abs path>/.devdata
 scripts/dev_mecab_shim.sh                    # Japanese parser support, no root
 python -m pytest tests/unit -q               # ~90s
-inv start                                    # http://localhost:5001
+inv accept --port 5099 --exitfirst          # browser tests; never against port 5001
+inv start --port 5002                        # 5001 is the real Lute (docker: lute-lute-1)
 ```
 
 Japanese parsing needs MeCab. Instead of `apt install mecab`, this checkout uses the
