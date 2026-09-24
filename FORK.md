@@ -42,6 +42,13 @@ Keeping conflicts down: put fork-only code in new modules (e.g. `lute/ai/`, a
 separate frontend package) rather than editing upstream files where avoidable.
 Template and JS edits will conflict on merge; accept that for the UI work.
 
+## Releases
+
+Live Lute on boulder (:5001) runs a tagged image of this fork; staging (:5002) runs the
+working tree against a copy of the data. See `deploy/README.md`. Short version:
+`deploy/stage.sh` to try things, `deploy/release.sh 3.10.3-fork.N` to ship,
+`deploy/rollback.sh` to undo.
+
 ## Upstream issues worth tracking
 
 - AI lookups: [#17](https://github.com/LuteOrg/lute-v3/issues/17),
