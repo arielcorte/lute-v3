@@ -203,7 +203,7 @@ def _run_acceptance(  # pylint: disable=too-many-arguments,too-many-positional-a
         run_test.append("-m mobile")
         run_test.append("--mobile")
 
-    _run_browser_tests(5001, run_test)
+    _run_browser_tests(port, run_test)
 
 
 acceptance_help = {
