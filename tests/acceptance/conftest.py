@@ -291,7 +291,9 @@ def given_book_from_file(luteclient, lang, title, filename):
 
 @given(parsers.parse("a {lang} book from url {url}"))
 def given_book_from_url(luteclient, lang, url):
-    "Book is made from url in dev_api."
+    "Book is made from url in dev_api.  Relative urls are served by the test site."
+    if url.startswith("/"):
+        url = f"{luteclient.home}{url}"
     luteclient.make_book_from_url(url, lang)
     _sleep(0.2)  # Hack!
 
@@ -556,7 +558,7 @@ def then_reading_page_term_form_is_hidden(luteclient):
     "Set to blankn"
     iframe_element = luteclient.page.locator("#wordframeid").first
     iframe_src = iframe_element.get_attribute("src")
-    blanks = ["about:blank", "http://localhost:5001/read/empty", "/read/empty"]
+    blanks = ["about:blank", f"{luteclient.home}/read/empty", "/read/empty"]
     assert iframe_src in blanks, "Is blank"
 
 
