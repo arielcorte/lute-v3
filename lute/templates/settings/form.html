@@ -80,6 +80,39 @@
         {{ form.show_highlights }}
       </td>
     </tr>
+    <tr>
+      <td>
+        Overrides
+        <img
+          id="about_overrides" style="margin-right:10px;"
+          src="{{ url_for('static', filename='icn/question-balloon.png') }}"
+          title="Click for details"
+          onclick="$('#overrides_help').toggle();"
+          />
+        <blockquote id="overrides_help" style="width:60%; display: none;">
+          <p>Quick changes for the reading screen, applied on top of
+          the current theme and custom styles.  Only checked items
+          are used; uncheck to go back to the theme's own colours
+          and font.  Other pages always use the theme.</p>
+          <p>The font and background colours can also be changed
+          from the reading screen's menu.</p>
+        </blockquote>
+      </td>
+      <td>
+        <table class="appearance-overrides">
+          {% for chk, val in [
+          (form.override_font_color, form.font_color),
+          (form.override_background_color, form.background_color),
+          (form.override_font_family, form.font_family),
+          ] %}
+          <tr>
+            <td>{{ chk }} {{ chk.label }}</td>
+            <td>{{ val(class="form-control") }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </td>
+    </tr>
 
     <tr>
       <td>

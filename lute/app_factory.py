@@ -60,6 +60,7 @@ from lute.backup.routes import bp as backup_bp
 from lute.dev_api.routes import bp as dev_api_bp
 from lute.settings.routes import bp as settings_bp
 from lute.themes.routes import bp as themes_bp
+from lute.themes.service import build_override_css
 from lute.stats.routes import bp as stats_bp
 from lute.cli.commands import bp as cli_bp
 
@@ -131,6 +132,7 @@ def _add_base_routes(app, app_config):
             "backup_time_since": bs.time_since_last_backup,
             "user_settings": json.dumps(current_settings),
             "user_hotkeys": json.dumps(current_hotkeys),
+            "user_appearance_css": build_override_css(current_settings),
         }
         return ret
 

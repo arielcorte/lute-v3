@@ -391,6 +391,27 @@ Feature: User can actually read and stuff.
             Tengo (1)/ /un (2)/ /amigo (3)/ /y/ /otro/.
 
 
+    Scenario: Font and background colours can be set from the reading menu and are kept
+        Given a Spanish book "Hola" with content:
+            Tengo un amigo.
+        When I set the reading menu background colour to "#112233"
+        And I set the reading menu font colour to "#eeeeee"
+        Then the reading page background colour is "rgb(17, 34, 51)"
+        And the reading page font colour is "rgb(238, 238, 238)"
+        # Colours are saved, so they survive a reload.
+        Given I visit "/"
+        When I click the "Hola" link
+        Then the reading page background colour is "rgb(17, 34, 51)"
+        And the reading page font colour is "rgb(238, 238, 238)"
+        # Changing the theme keeps the overrides.
+        When I press hotkey "m"
+        Then the reading page background colour is "rgb(17, 34, 51)"
+        # Reset = theme colours again.
+        When I click the reading menu "Use theme colours" link
+        Then the reading page background colour is not "rgb(17, 34, 51)"
+        And the reading page font colour is not "rgb(238, 238, 238)"
+
+
     # DISABLING TEST, can't figure out what is wrong.
     # When a book has multiple pages, the hotkey actions during
     # acceptance testing somehow seem "stuck" on page 1.

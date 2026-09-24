@@ -2,6 +2,12 @@
 
 {% block title %}Reading &quot;{{ html_title }}&quot;{% endblock %}
 
+{% block preloadassets %}
+<!-- Font/background overrides from Settings.  Reading page only, and
+     loaded after the theme and custom styles so they win. -->
+<style id="user_appearance_overrides">{{ user_appearance_css | safe }}</style>
+{% endblock %}
+
 {% block body %}
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/player.js') }}" charset="utf-8" defer></script>
