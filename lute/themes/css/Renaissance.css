@@ -1,0 +1,127 @@
+/*
+  Renaissance study: parchment, ink and humanist serifs.
+
+  Palette from a "Renaissance study with steampunk instruments"
+  visual direction; every text-on-surface pair passes WCAG AA.
+  Fonts are local stacks only (no downloads): EB Garamond or
+  Cormorant Garamond are used if installed, else Palatino/Georgia.
+*/
+
+body {
+  --renaissance-vellum: #FBF6EA;      /* cards, form fields */
+  --renaissance-vellum-deep: #F1E6CC;
+  --renaissance-rule: #CDBB94;        /* non-text lines only */
+  --renaissance-sepia: #5C4A36;       /* muted text */
+  --renaissance-brass: #7A5A1E;       /* links */
+  --renaissance-copper: #8C4A26;      /* link hover */
+  --renaissance-verdigris: #2E6B62;
+  --renaissance-oxblood: #7B2D26;
+  --renaissance-brass-deco: #B08D57;  /* ornament only, never text */
+
+  /* Paper grain: page background only, never behind a card. */
+  --renaissance-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.13 0 0 0 0 0.09 0 0 0 1.6 -0.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
+
+  /* Term status washes: warm for new, cooling towards verdigris as learned. */
+  --status-0-color: #DCE3E6;   /* unknown: cool grey-blue, stands apart from the warm page */
+  --status-1-color: #EAC6BE;   /* oxblood wash */
+  --status-2-color: #EDD0B8;   /* copper wash */
+  --status-3-color: #EEDFAE;   /* brass wash */
+  --status-4-color: #EAE0B5;   /* gold vellum */
+  --status-5-color: #DCE3CD;   /* sage */
+  --status-98-color: #D8CBAA;  /* ignored: faded rule */
+  --status-99-color: #CBE0D8;  /* well known: verdigris wash */
+
+  --background-color: #F3EAD3; /* parchment */
+  --font-color: #2B2118;       /* ink */
+  --form-border-color: var(--renaissance-rule);
+  --form-border-radius: 6px;
+
+  background: var(--background-color) var(--renaissance-grain) repeat;
+  color: var(--font-color);
+  font-family: "EB Garamond", Garamond, "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+h1, h2, h3 {
+  font-family: "Cormorant Garamond", Garamond, "Palatino Linotype", Palatino, Georgia, serif;
+  font-weight: 600;
+}
+
+a, a:link, a:visited {
+  color: var(--renaissance-brass);
+}
+
+a:hover {
+  color: var(--renaissance-copper);
+}
+
+a.home-link {
+  color: var(--font-color) !important;
+}
+
+/* Reading pane. */
+div#thetext p { line-height: 1.55; }
+span.textitem {
+  font-family: "EB Garamond", Garamond, "Palatino Linotype", Palatino, Georgia, serif;
+  border-radius: 3px;
+}
+span.status1 { background-color: var(--status-1-color); }
+span.status2 { background-color: var(--status-2-color); }
+span.status3 { background-color: var(--status-3-color); }
+span.status4 { background-color: var(--status-4-color); }
+span.status5 { background-color: var(--status-5-color); }
+span.status98 { background-color: var(--status-98-color); }
+span.status99 { background-color: var(--status-99-color); }
+
+/* Forms and popups: flat vellum with a rule border. */
+input[type="text"],
+input[type="number"],
+input[type="search"],
+textarea,
+select,
+.ui-widget-content,
+.sub-menu,
+.tagify {
+  background-color: var(--renaissance-vellum);
+  border-color: var(--renaissance-rule);
+  color: var(--font-color);
+}
+
+.tagify {
+  --tags-border-color: var(--renaissance-rule);
+  --placeholder-color-focus: var(--renaissance-sepia);
+}
+
+.tagify--focus {
+  --tags-border-color: var(--renaissance-brass);
+}
+
+/* Reading menu: brass rule instead of the default blue. */
+#reading_menu {
+  border-right-color: var(--renaissance-brass-deco);
+}
+
+.close-btn:hover,
+#reading_menu .reading-menu-item:hover,
+.text-options-button:hover {
+  background-color: var(--renaissance-vellum-deep);
+}
+
+#reading_menu .reading-menu-item:hover {
+  color: var(--renaissance-copper);
+}
+
+/* Instruments: the status bar and flash notices. */
+.status-bar-container {
+  background-color: var(--renaissance-vellum);
+  border-color: var(--renaissance-rule);
+}
+
+.status-bar-container-empty {
+  background-color: var(--background-color);
+  border-color: var(--renaissance-rule);
+}
+
+.flash-notice {
+  background-color: var(--status-3-color);
+  border-left: 3px solid var(--renaissance-brass-deco);
+}
