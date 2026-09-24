@@ -96,6 +96,14 @@ def add_default_user_settings(session, default_user_backup_path):
         "current_theme": "-",
         "custom_styles": "/* Custom css to modify Lute's appearance. */",
         "show_highlights": True,
+        # Appearance overrides, applied on top of the current theme
+        # only when the matching "override_" flag is set.
+        "override_font_color": False,
+        "font_color": "#000000",
+        "override_background_color": False,
+        "background_color": "#ffffff",
+        "override_font_family": False,
+        "font_family": "",
         "current_language_id": 0,
         # Behaviour:
         "open_popup_in_new_tab": False,

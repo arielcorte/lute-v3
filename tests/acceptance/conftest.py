@@ -606,6 +606,53 @@ def given_set_hotkey(luteclient, hotkey, value):
     luteclient.hack_set_hotkey(hotkey, value)
 
 
+# Reading, appearance
+
+
+@when(parsers.parse('I set the reading menu {which} colour to "{color}"'))
+def when_set_reading_menu_colour(luteclient, which, color):
+    "Pick a colour in the reading menu; fill sends the input and change events."
+    luteclient.page.click(".hamburger-btn")
+    luteclient.page.fill(f"#reading_{which}_color", color)
+    time.sleep(0.2)  # save is async
+    luteclient.page.evaluate("closeMenu()")
+
+
+@when(parsers.parse('I click the reading menu "{linktext}" link'))
+def when_click_reading_menu_link(luteclient, linktext):
+    "Open the hamburger menu and click a link in it."
+    luteclient.page.click(".hamburger-btn")
+    luteclient.page.locator(f'#reading_menu a:has-text("{linktext}")').click()
+    time.sleep(0.2)
+    luteclient.page.evaluate("closeMenu()")
+
+
+def _reading_page_colour(luteclient, prop):
+    "Computed body colour, once the reading page has loaded."
+    luteclient.page.wait_for_selector("span.textitem")
+    return luteclient.page.evaluate(f"getComputedStyle(document.body).{prop}")
+
+
+@then(parsers.parse('the reading page background colour is "{color}"'))
+def then_reading_bg_colour(luteclient, color):
+    assert _reading_page_colour(luteclient, "backgroundColor") == color
+
+
+@then(parsers.parse('the reading page font colour is "{color}"'))
+def then_reading_font_colour(luteclient, color):
+    assert _reading_page_colour(luteclient, "color") == color
+
+
+@then(parsers.parse('the reading page background colour is not "{color}"'))
+def then_reading_bg_colour_not(luteclient, color):
+    assert _reading_page_colour(luteclient, "backgroundColor") != color
+
+
+@then(parsers.parse('the reading page font colour is not "{color}"'))
+def then_reading_font_colour_not(luteclient, color):
+    assert _reading_page_colour(luteclient, "color") != color
+
+
 # Reading, paging
 
 

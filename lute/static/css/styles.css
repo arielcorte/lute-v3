@@ -498,6 +498,25 @@ span.hamburger {
     display:none;
 }
 
+/* Font/background colour pickers in the reading menu. */
+#appearance-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+#appearance-container input[type="color"] {
+    width: 2.2rem;
+    height: 1.6rem;
+    padding: 0;
+    border: 1px solid var(--form-border-color);
+    border-radius: var(--form-border-radius);
+    background: none;
+    cursor: pointer;
+}
+
 #focus,
 #tap_sets_status {
     appearance: none;

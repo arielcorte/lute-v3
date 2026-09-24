@@ -39,6 +39,17 @@
   </div>
 </div>
 
+<div id="appearance-container" title="Font and background colour (saved in Settings)">
+  <label for="reading_font_color">Font</label>
+  <input type="color" id="reading_font_color" title="Font colour">
+  <label for="reading_background_color">Background</label>
+  <input type="color" id="reading_background_color" title="Background colour">
+</div>
+<a id="reset_appearance" class="reading-menu-item" href="" style="display: none; text-align: center;"
+   onclick="reset_appearance_overrides(); return false;" title="Use the theme's own colours">
+  Use theme colours
+</a>
+
 <ul>
   {% if book.source_uri %}
   <li>
@@ -198,6 +209,7 @@
 
   $(document).ready(function () {
     _handle_top_level_menu_clicks_for_mobile();
+    init_appearance_controls();
     if (LUTE_USER_SETTINGS["use_ankiconnect"] == false) {
       $("#sendTermsToAnki").css('display', 'none');
     }

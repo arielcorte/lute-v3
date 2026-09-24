@@ -943,6 +943,89 @@ function next_theme() {
 
 }
 
+/**
+ * Font and background colour overrides, set from the reading menu.
+ *
+ * The colours are saved in user settings (see Settings > Appearance)
+ * and rendered into the base template as css after the theme, so
+ * the page is updated in place, no reload needed.
+ */
+
+/* "rgb(1, 2, 3)" => "#010203", as needed by input type="color". */
+function _rgb_to_hex(rgb) {
+  const m = (rgb || "").match(/\d+/g);
+  if (!m || m.length < 3)
+    return "#000000";
+  return "#" + m.slice(0, 3).map(n => Number(n).toString(16).padStart(2, "0")).join("");
+}
+
+function _set_appearance_pickers_from_page() {
+  const s = window.getComputedStyle(document.body);
+  document.getElementById("reading_font_color").value = _rgb_to_hex(s.color);
+  document.getElementById("reading_background_color").value = _rgb_to_hex(s.backgroundColor);
+}
+
+function _show_reset_appearance_link(overrides_active) {
+  $("#reset_appearance").toggle(overrides_active);
+}
+
+function init_appearance_controls() {
+  const fc = document.getElementById("reading_font_color");
+  const bg = document.getElementById("reading_background_color");
+  if (!fc || !bg)
+    return;
+  _set_appearance_pickers_from_page();
+  const settings = LUTE_USER_SETTINGS;
+  _show_reset_appearance_link(
+    settings["override_font_color"] || settings["override_background_color"]
+  );
+
+  // Preview while the picker is being dragged, save when it's closed.
+  fc.addEventListener("input", () => {
+    document.body.style.setProperty("--font-color", fc.value);
+    document.body.style.color = fc.value;
+  });
+  fc.addEventListener("change", () => save_appearance_overrides({ font_color: fc.value }));
+  bg.addEventListener("input", () => {
+    document.body.style.setProperty("--background-color", bg.value);
+    document.body.style.backgroundColor = bg.value;
+  });
+  bg.addEventListener("change", () => save_appearance_overrides({ background_color: bg.value }));
+}
+
+function save_appearance_overrides(data) {
+  $.ajax({
+    url: '/theme/overrides',
+    type: 'post',
+    dataType: 'JSON',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+    success: function(response) {
+      // Drop the preview styles; the saved css takes over.
+      document.body.style.removeProperty("--font-color");
+      document.body.style.removeProperty("--background-color");
+      document.body.style.color = "";
+      document.body.style.backgroundColor = "";
+      $("#user_appearance_overrides").text(response.css);
+      _show_reset_appearance_link(response.overrides_active);
+      _set_appearance_pickers_from_page();
+    },
+    error: function(response, status, err) {
+      const msg = {
+        response: response,
+        status: status,
+        error: err
+      };
+      console.log(`failed: ${JSON.stringify(msg, null, 2)}`);
+    }
+  });
+}
+
+/* Go back to the theme's own colours. */
+function reset_appearance_overrides() {
+  save_appearance_overrides({ reset: true });
+}
+
 function toggleFocus() {
   const focusChk = document.getElementById("focus");
   const event = new Event("change");

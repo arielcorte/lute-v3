@@ -4,9 +4,18 @@ Settings form.
 
 import os
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, StringField, IntegerField, TextAreaField, SelectField
-from wtforms.validators import InputRequired, NumberRange
+from wtforms import (
+    BooleanField,
+    StringField,
+    IntegerField,
+    TextAreaField,
+    SelectField,
+    ColorField,
+)
+from wtforms.validators import InputRequired, NumberRange, Optional, Regexp
 from wtforms import ValidationError
+
+from lute.themes.service import HEX_COLOR_REGEX
 
 
 class UserSettingsForm(FlaskForm):
@@ -31,6 +40,24 @@ class UserSettingsForm(FlaskForm):
     current_theme = SelectField("Theme")
     custom_styles = TextAreaField("Custom styles")
     show_highlights = BooleanField("Highlight terms by status")
+
+    # Appearance overrides, applied on top of the theme when the
+    # matching "override_" box is checked.
+    override_font_color = BooleanField("Override theme font colour")
+    font_color = ColorField(
+        "Font colour",
+        validators=[Optional(), Regexp(HEX_COLOR_REGEX, message="Invalid colour")],
+    )
+    override_background_color = BooleanField("Override theme background colour")
+    background_color = ColorField(
+        "Background colour",
+        validators=[Optional(), Regexp(HEX_COLOR_REGEX, message="Invalid colour")],
+    )
+    override_font_family = BooleanField("Override theme font")
+    font_family = StringField(
+        "Font",
+        render_kw={"placeholder": 'e.g. Georgia, "Times New Roman", serif', "size": 40},
+    )
 
     open_popup_in_new_tab = BooleanField("Open popup in new tab")
     stop_audio_on_term_form_open = BooleanField("Stop audio on term form open")
